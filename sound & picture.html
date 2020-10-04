@@ -1,0 +1,30 @@
+<html>
+	<head>
+		<title>Sound & picture</title>
+		<meta charset="utf-8">
+		<link href="css.css" rel="stylesheet" type="text/css"/>
+		<script src="config.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/comfy.js@latest/dist/comfy.min.js"></script>
+		<!--script taken from https://github.com/instafluff/ComfyJS-->
+	</head>
+  
+	<body>
+		<audio id='sound' src=""></audio>
+		<img id='image' src=""></img>
+		
+		<script>
+				document.getElementById("image").src = imagename + "." + imagefiletype;
+				document.getElementById("sound").src = soundname + "." + soundfiletype;
+
+			ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
+				if( command === commandname && extra.sinceLastCommand == commandtimeout * 1000 ) {
+					sound.play();
+					var element = document.getElementById('image');
+					element.style.opacity = "1";
+					console.log( "sound played" );
+					setTimeout(() => {  element.style.opacity = "0"; }, parseInt(time) * 1000);	
+				}
+			}
+			ComfyJS.Init( channel );
+		</script>
+	</body>
