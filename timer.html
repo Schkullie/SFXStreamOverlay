@@ -1,0 +1,85 @@
+<html>
+  <head>
+    <title>Interactive Timer</title>
+    <meta charset="utf-8">
+    <link href="timer.css" rel="stylesheet" type="text/css"/>
+    <script src="https://cdn.jsdelivr.net/npm/comfy.js@latest/dist/comfy.min.js"></script>
+	<script src="config.js"></script>
+
+  </head>
+  <body>
+    <p id="countdown"></p>
+	<script src="timer.js"></script> 
+    
+    <script type="text/javascript">
+		<!--Change timer on command/channel point reward-->
+        ComfyJS.onChat = ( user, message, flags, self, extra ) => {
+            <!--Change timer +10 on command-->
+			if( message == slowermessage && user === bot ) {
+                console.log( "time has been added" );
+                time = time + parseInt(slowertime, 10);
+				if(sound === 'yes')
+				{
+					down.play();
+				}
+            }
+            <!--Change timer -10 on command-->
+            if( message == fastermessage && user === bot ) {
+                console.log( "time has been removed" );
+                time = time - parseInt(fastertime, 10);
+				if(sound === 'yes')
+				{
+					up.play();
+				}
+            }
+            <!--Change timer +10 on channel point reward-->
+            if( flags.customReward && extra.cutomRewardID === rewardidslower ){
+                console.log( "time has been added" );
+                time = time + parseInt(slowertime, 10);
+                if(sound === 'yes')
+				{
+					down.play();
+				}
+            }
+            <!--Change timer -10 on channel point reward-->
+            if( flags.customReward && extra.cutomRewardID === rewardidfaster ){
+                console.log( "time has been removed" );
+                time = time - parseInt(fastertime, 10);
+                if(sound === 'yes')
+				{
+					up.play();
+				}
+            }
+		}
+		
+	ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
+		if( command == slowercommand && extra.sinceLastCommand == commandtimeout * 1000)
+			{
+			console.log( "time has been added" );
+			time = time + parseInt(slowertime, 10);
+			if(sound === 'yes')
+				{
+					down.play();
+				}
+			}
+		if( command == fastercommand && extra.sinceLastCommand == commandtimeout * 1000)
+			{
+			console.log( "time has been removed" );
+			time = time - parseInt(fastertime, 10);
+			if(sound === 'yes')
+			{
+				up.play();
+			}
+        }
+	}
+	
+    ComfyJS.Init( channel );
+		
+    </script>
+      
+    <audio id="end" src="end.mp3"></audio>
+    <audio id="up" src="up.mp3"></audio>
+    <audio id="down" src="down.mp3"></audio>
+
+</body>
+</body>
